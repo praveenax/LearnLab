@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    
+<script src="https://unpkg.com/deeplearn"></script>    
+    <script>
+        var math = new dl.NDArrayMathGPU();
+        var a = dl.Array1D.new([1, 2, 3]);
+        var b = dl.Scalar.new(2);
+
+        var result = math.add(a, b);
+
+        // Option 1: With a Promise.
+        result.data().then(data => console.log(data)); // Float32Array([3, 4, 5])
+
+        // Option 2: Synchronous download of data. This is simpler, but blocks the UI.
+        console.log(result.dataSync());
+    
+    </script>
+</body>
+</html>
