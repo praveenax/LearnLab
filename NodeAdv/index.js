@@ -1,33 +1,28 @@
-console.log("ADV");
+var express = require('express');
 
-var val = 1;
-const PromTest = (data) =>{
-    return new Promise((resolve,reject) =>{
-        
-        console.log("test");
-        
-        if(data == 1){
-            resolve("axp");
-        }else{
-            setTimeout(function(){
-                reject("wooooo!");
-            },2000);
-            
-        }
-        
-    });
-}
+var app = express();
+var path = require('path');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+io.on('connection', function(socket){
+  socket.on('message', function(msg){
+    console.log('message: ' + msg);
+  });
+});
 
 
-const fun = (val) =>{
-    PromTest(val).then(value=>{
-        console.log("Done: "+value);
-    }).catch(err=>{
-       console.log("Err: "+err); 
-    });
-}
 
-fun(1);
-fun(2);
-fun(3);
+app.use(express.static('client'));
 
+app.get('/', function (req, res) {
+
+    res.sendfile('client/index.html');
+
+});
+
+
+
+http.listen(process.env.PORT || 3000, function(){
+  console.log('listening on *:3000');
+});
