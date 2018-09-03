@@ -80,6 +80,8 @@ public class Main {
         Actor act1 = new Actor();
 
         act1.setName(result);
+        //create random attributes
+        //create a bonus attribute - idea is if a bonus attribute is fighting - the actor will get +2 bonus
 
         return act1;
     }
