@@ -28,7 +28,7 @@ var renderCol = function (val) {
 }
 
 var powerValue = function (label, value) {
-    return '<div class="card nation-power col-4"><div class="row padd">' + renderCol('<i class="fas ' + fetchIcons(label) + '"></i>') + '' + renderCol('<b>' + label + '</b>') + '' + renderCol(value) + '</div></div>'
+    return '<div class="card nation-power col-2"><div class="row padd">' + renderCol('<i class="fas ' + fetchIcons(label) + '"></i>') + '' + renderCol('<b>' + label + '</b>') + '</div><div class="powerValue">' + renderCol(value) + '</div></div>'
 }
 
 var renderNationList = function (nations, $) {
@@ -42,11 +42,15 @@ var renderNationList = function (nations, $) {
 $(document).ready(function () {
 
 
-    var nations = ["India", "Japan", "Egypt"];
+    var nations = ["India", "Japan", "Egypt", "Germany", "France", "Spain"];
+    //    var nations = ["India"];
 
     renderNationList(nations, $)
 
-    renderChart(nations);
+    renderChart(nations,"myChart");
+    renderChart(nations,"myChart_2");
+    renderChart(nations,"myChart_3");
+    renderChart(nations,"myChart_4");
 
 
 
