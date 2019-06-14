@@ -10,9 +10,11 @@
 </head>
 
 <body>
+<!--
     <div class="myclass">
         Hello World!
     </div>
+-->
 <!--
     <div id="svgcontainer">
         <svg width="300" height="300">
@@ -30,33 +32,51 @@
         function rand(min, max) {
             return Math.floor(Math.random() * max) + min;
         }
-        d3.select("body").style("background", "black");
-        d3.selectAll(".myclass").attr("style", "color: red");
-        var width = 300;
-        var height = 300;
-        var svg = d3.select("#svgcontainer2")
-            .append("svg").attr("width", width).attr("height", height);
-        //        svg.append("line")
-        //            .attr("x1", 100)
-        //            .attr("y1", 100)
-        //            .attr("x2", 200)
-        //            .attr("y2", 200)
-        //            .style("stroke", "rgb(255,0,0)")
-        //            .style("stroke-width", 2);
-        for (var i = 0; i < 4; i++) {
+        
+        function fetchColor(){
             var r = rand(0, 255);
             var g = rand(0, 255);
             var b = rand(0, 255);
             var color = r+','+g+','+b;
+            return color
+        }
+        
+        function drawArt(svg){
+            for (var i = 0; i < 1000; i++) {
+            
+            var color = fetchColor()
             
             svg.append('line')
-                .attr("x1", rand(10, 200))
-                .attr("y1", rand(10, 200))
-                .attr("x2", rand(10, 200))
-                .attr("y2", rand(10, 200))
+                .attr("x1", rand(10, 700))
+                .attr("y1", rand(10, 700))
+                .attr("x2", rand(10, 700))
+                .attr("y2", rand(10, 700))
                 .style("stroke", "rgb("+color+")")
                 .style("stroke-width", 2);
         }
+            
+        }
+        d3.select("body").style("background", "black");
+        d3.selectAll(".myclass").attr("style", "color: red");
+        var width = 800;
+        var height = 800;
+        var svg = d3.select("#svgcontainer2")
+            .append("svg").attr("width", width).attr("height", height);
+        
+        
+        
+//        drawArt(svg)
+        var color = '255,0,0'
+            
+        
+        var xAxis = svg.append('line')
+                .attr("x1", 10).attr("y1", 10).attr("x2", 1000).attr("y2", 10).style("stroke", "rgb("+color+")")
+                .style("stroke-width", 5);
+        
+        var yAxis = svg.append('line')
+                .attr("x1", 10).attr("y1", 10).attr("x2", 10).attr("y2", 1000).style("stroke", "rgb("+color+")")
+                .style("stroke-width", 5);
+        
 
     </script>
 </body>
