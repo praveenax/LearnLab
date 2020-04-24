@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="container">
+
+        <div class="box b1">
+            DO First
+            <br>
+            <div id="tx1" class="contentBox">
+
+
+
+            </div>
+        </div>
+        <div class="box b2">
+            DO Later
+             <br>
+            <div id="tx2" class="contentBox">
+
+
+
+            </div>
+        </div>
+        <div class="box b3">
+            Delegate
+             <br>
+            <div id="tx3" class="contentBox">
+
+
+
+            </div>
+        </div>
+        <div class="box b4">
+            Eliminate
+             <br>
+            <div id="tx4" class="contentBox">
+
+
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            var tasks = []
+            for (var i = 0; i < 10; i++) {
+                $("#tx1").append(" <div class='task'>Task Name #" + i + "</div>");
+                $("#tx2").append(" <div class='task'>Task Name #" + i + "</div>");
+                $("#tx3").append(" <div class='task'>Task Name #" + i + "</div>");
+                $("#tx4").append(" <div class='task'>Task Name #" + i + "</div>");
+            }
+
+
+        })
+
+    </script>
+    <style>
+        #container {
+            margin: auto;
+            width: 60%;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .box {
+            display: inline-block;
+            width: 50%;
+            height: 200px;
+            float: left;
+
+        }
+
+        .b1 {
+            background: #2ecc71;
+        }
+
+        .b2 {
+            background: #3498db;
+        }
+
+        .b3 {
+            background: #f39c12;
+        }
+
+        .b4 {
+            background: #e74c3c;
+        }
+
+        .task {
+            padding: 6px 10px;
+            border: 1px solid #80808030;
+            font-size: 12px;
+        }
+
+        .contentBox {
+            overflow: auto;
+            height: 80%;
+        }
+
+    </style>
+</body>
+
+</html>
