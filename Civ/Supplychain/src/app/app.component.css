@@ -1,0 +1,10 @@
+.grid{
+    height:100px;
+    
+}
+
+.grid>.cell{
+    background: red;
+    padding: 2px;
+    height:100px;
+}
