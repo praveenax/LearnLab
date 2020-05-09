@@ -1,0 +1,324 @@
+<html>
+
+<head>
+    <h2>Select Area to Extract Text </h2>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+</head>
+
+<body>
+
+    <DIV ID="rubberBand"> </DIV>
+    <img ismap alt="My Image" id='backImg' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        var upload_loc = 'static/backImg/'
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+            vars[key] = value;
+        });
+        var up_file = (vars['up_file'])
+        console.log(upload_loc + up_file)
+        document.getElementById('backImg').src = upload_loc + up_file
+
+          //let photo = document.getElementById("file-input").files[0];
+        //document.body.style.backgroundImage = "url(up_file)";
+        //document.getElementById("backImg").src = photo;
+
+    </script>
+
+
+    <STYLE>
+        #rubberBand {
+            position: absolute;
+            width: 0px;
+            height: 0px;
+            border: 2px dashed blue;
+        }
+    </STYLE>
+    <SCRIPT>
+
+
+    </SCRIPT>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+
+            var IMG;
+            var startX, startY, endX, endY = 0;
+            openForm();
+            addFields();
+            function startRubber(evt) {
+
+                if (document.all) {
+                    // IE
+                    var r = document.all.rubberBand;
+                    r.style.width = 0;
+                    r.style.height = 0;
+                    r.style.pixelLeft = event.pageX;
+                    r.style.pixelTop = event.pageY;
+                    r.style.visibility = 'visible';
+                    console.log('inside rubberband')
+                    console.log(r.style.pixelLeft);
+                    IMG.ondragstart = cancelDragDrop; // otherwise IE will try to drag the image
+                }
+                else if (document.getElementById) {
+                    // firefox
+                    evt.preventDefault();
+                    var r = document.getElementById('rubberBand');
+                    r.style.width = 0;
+                    r.style.height = 0;
+                    r.style.visibility = 'visible';
+
+                    r.style.left = evt.pageX + 'px';
+                    r.style.top = evt.pageY + 'px';
+                    r.style.visibility = 'visible';
+                    console.log('pagex', r.style.left)
+                    console.log('pagey', r.style.top)
+
+                    startX = event.pageX - this.offsetLeft;
+                    startY = event.pageY - this.offsetTop;
+                    r.onmouseup = stopRubber;
+                }
+                IMG.onmousemove = moveRubber;
+            }
+            function moveRubber(evt) {
+                if (document.all) { // IE
+                    var r = document.all.rubberBand;
+                    r.style.width = event.x - r.style.pixelLeft;
+                    r.style.height = event.y - r.style.pixelTop;
+                }
+                else if (document.getElementById) { // firefox
+                    var r = document.getElementById('rubberBand');
+                    r.style.width = evt.pageX - parseInt(r.style.left);
+                    r.style.height = evt.pageY - parseInt(r.style.top);
+                }
+                return false; // otherwise IE won't fire mouseup :/
+            }
+            function stopRubber(evt) {
+                console.log('right', evt.pageX)
+                console.log('bottom', evt.pageY)
+                endX = event.pageX - this.offsetLeft;
+                endY = event.pageY - this.offsetTop;
+                document.getElementById(focusedId).value = startX + ";" + startY + ";" + endX + ";" + endY;
+                IMG.onmousemove = null;
+            }
+
+            function cancelDragDrop() {
+                window.event.returnValue = false;
+            }
+
+            IMG = document.getElementById('backImg');
+            IMG.onmousedown = startRubber;
+            IMG.onmouseup = stopRubber;
+
+        });
+
+        function addFields() {
+            var number = document.getElementById("member").value;
+            //var number=4;
+            var container = document.getElementById("form-container");
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            for (i = 1; i <= number; i++) {
+                container.appendChild(document.createTextNode("Column " + (i)));
+                var input1 = document.createElement("input");
+                input1.type = "text";
+                input1.id = "field" + i.toString();
+                input1.name = "field" + i.toString();
+                input1.defaultValue = "Column" + +i.toString();
+                console.log(input1.id)
+                container.appendChild(input1);
+                container.appendChild(document.createTextNode("  Position " + (i)));
+                var input2 = document.createElement("input");
+                input2.type = "text";
+                input2.id = "coord" + i.toString();
+                input2.name = "coord" + i.toString();
+                console.log(input2.id)
+                input2.addEventListener("focus", focusFunction, true);
+                container.appendChild(input2);
+                container.appendChild(document.createElement("br"));
+            }
+            // container.appendChild(document.createTextNode("Max XY "));
+            // var input3 = document.createElement("input");
+            // input3.type = "text";
+            // input3.id="maxxy";
+            // input3.name = "maxxy";
+            // input3.addEventListener("focus", focusFunction, true);
+            // container.appendChild(input3);
+            // container.appendChild(document.createElement("br"));
+            // fillvalues();
+            document.getElementById("coord1").focus();
+        }
+
+        // function setFocus(number)
+        // {
+        //   for (i=1;i<=number;i++){
+        //     var x = document.getElementById("coord"+i.toString())
+        //     // setTimeout("document.getElementById('" + objField.id + "').focus()", 10); // works great in all browsers
+        //     x.onfocus=focusFunction();
+
+        //   }
+
+        // }
+        function fillvalues() {
+            document.getElementById('member').defaultValue = 4;
+            document.getElementById('field1').defaultValue = "Item";
+            document.getElementById('field2').defaultValue = "Price";
+            document.getElementById('field3').defaultValue = "Qty";
+            document.getElementById('field4').defaultValue = "Amt";
+            document.getElementById('coord1').defaultValue = "82;161;167;401";
+            document.getElementById('coord2').defaultValue = "163;159;248;402";
+            document.getElementById('coord3').defaultValue = "246;158;328;403";
+            document.getElementById('coord4').defaultValue = "327;161;410;405";
+            //   document.getElementById('maxxy').defaultValue="413;213";
+        }
+    </script>
+
+    <body>
+
+        <button class="open-button" onclick="openForm()">Open Form</button>
+
+        <div class="form-popup" id="headerForm">
+            <div id="form-header">Click here to Move</div>
+
+            <form method=post class="form-container">
+                <h2>Set Co-Ordinates</h2>
+                <p></p><input type="text" id="scrName" name="scrName" value="Screen1">
+                <button type="button" class="btn rotate" onclick="clickCounter()">Rotate Image</button>
+                <button type="button" class="btn rotate" id="zoom-in">zoom in</button>
+                <button type="button" class="btn rotate" id="zoom-out">zoom out</button>
+
+
+                <p> Number of Columns: &nbsp&nbsp&nbsp <input type="text" id="member" name="member" value="1"></p>
+                <a href="#" id="filldetails" onclick="addFields()">Enter Column Details</a>
+                <div id="form-container"></div>
+
+                <button type="submit" class="btn">Download CSV</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+
+            </form>
+        </div>
+
+        <script>
+            document.getElementById("member").focus();
+
+            function clickCounter() {
+                if (typeof (Storage) !== "undefined") {
+                    if (sessionStorage.clickcount) {
+                        sessionStorage.clickcount = Number(sessionStorage.clickcount) + 1;
+                    } else {
+                        sessionStorage.clickcount = 1;
+                    }
+                    RotateImage(sessionStorage.clickcount)
+                } else {
+                    document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+                }
+            }
+
+            function RotateImage(clickcount) {
+                IMG = document.getElementById("backImg");
+                degree = clickcount * 90 % 360;
+                console.log(degree);
+                //img.setAttribute('style','transform:rotate(90deg)');
+                //IMG.style.transform = "rotate(" + degree + "deg)";
+                IMG.className = "rotate" + degree;
+                document.getElementById("coord1").focus();
+
+            }
+
+            // document.getElementById("coord1").focus();
+            function openForm() {
+                document.getElementById("headerForm").style.display = "block";
+            }
+
+            function closeForm() {
+                document.getElementById("headerForm").style.display = "none";
+            }
+
+            function focusFunction() {
+                console.log('inside focusfunc')
+                console.log(this.id)
+                focusedId = this.id;
+                document.getElementById("backImg").style.cursor = "crosshair";
+
+            };
+
+            dragElement(document.getElementById("headerForm"));
+
+            function dragElement(elmnt) {
+                var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                if (document.getElementById("form-header")) {
+                    // if present, the header is where you move the DIV from:
+                    document.getElementById("form-header").onmousedown = dragMouseDown;
+                } else {
+                    // otherwise, move the DIV from anywhere inside the DIV:
+                    elmnt.onmousedown = dragMouseDown;
+                }
+
+                function dragMouseDown(e) {
+                    e = e || window.event;
+                    e.preventDefault();
+                    // get the mouse cursor position at startup:
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    document.onmouseup = closeDragElement;
+                    // call a function whenever the cursor moves:
+                    document.onmousemove = elementDrag;
+                }
+
+                function elementDrag(e) {
+                    e = e || window.event;
+                    e.preventDefault();
+                    // calculate the new cursor position:
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    // set the element's new position:
+                    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                }
+
+                function closeDragElement() {
+                    // stop moving when mouse button is released:
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                }
+            }
+        </script>
+
+        <script>
+            $('#zoom-in').click(function () {
+                updateZoom(0.1);
+            });
+
+            $('#zoom-out').click(function () {
+                updateZoom(-0.1);
+            });
+
+
+            zoomLevel = 1;
+
+            var updateZoom = function (zoom) {
+                zoomLevel += zoom;
+                //$('body').css({ zoom: zoomLevel, '-moz-transform': 'scale(' + zoomLevel + ')' });
+                $('#backImg').css({ transform: 'scale(' + zoomLevel + ')' });
+                console.log(zoomLevel)
+                updateDiv()
+            }
+        </script>
+
+        <script>
+            function updateDiv() {
+                $("#rubberBand").load(window.location.href + " #rubberBand");
+            }
+        </script>
+        </script>
+
+    </body>
+
+</html>
