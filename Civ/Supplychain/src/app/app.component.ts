@@ -22,6 +22,10 @@ export class AppComponent {
   }
 
   ngOnInit(){
+    
+  }
+
+  ngOnInit2(){
 
     var stage = new createjs.Stage("demoCanvas");
     var circle = new createjs.Shape();
