@@ -1,0 +1,12 @@
+{
+  "name": "make_space",
+  "version": "1.0.0",
+  "description": "",
+  "main": "geektrust.js",
+  "scripts": {
+    "start": "node geektrust.js",
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}
